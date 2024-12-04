@@ -4,7 +4,8 @@ const NavBar = () => {
     <>
         <div className="navbar bg-base-100 w-full">
             <div className="flex-1">
-                <a className="btn btn-ghost text-xl">PSARA</a>
+
+                <a className="btn btn-ghost text-xl"><img className="w-12" src="./logo.png" alt="" /> PSARA</a>
             </div>
             <div className="flex-none gap-2">
                 <div className="form-control">
