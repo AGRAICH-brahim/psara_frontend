@@ -2,13 +2,31 @@
 const Hero = () => {
   return (
     <div
-        className="hero min-h-[90%] min-w-full"
+        className="hero min-h-[67%] min-w-full "
         style={{
-            backgroundImage: "url(heroimage.png)",
+            backgroundImage: "url(Garde-animaux-chien-chat-lapin-gratuit.jpg)",
         }}>
          
-        <div className="hero-overlay bg-opacity-60"></div>
-        <div className="hero-content text-neutral-content text-center">
+        <div className="flex w-[90%] justify-end relative bottom-12 ">
+          <div className="flex self-start justify-end ">
+            <div className=" w-[50%]">
+            <h1 className=" text-4xl text-white font-bold">Bienvenue sur  la plateforme PSARA !  <br/> Offrir un foyer chaleureux à un animal, c'est changer une vie. 🌟</h1>
+               <p> 🐾 Notre plateforme connecte les amoureux des animaux avec ceux qui cherchent à leur offrir une nouvelle chance. <br/>
+            💖 Que vous soyez un adoptant 🏡, un propriétaire 🐕, ou un centre d'adoption 🏢, nous sommes là pour faciliter l'adoption responsable en toute confiance.
+            </p>
+              <div className="mt-8">
+                <a className="p-4  uppercase bg-transparent border-2 border-white hover:bg-orange-200 " href="#"> 
+                  En Savoir Plus
+                </a>
+              </div>
+            </div>
+                
+          </div>
+        </div>
+
+
+
+        {/* <div className="hero-content  text-center text-white">
             <div className="max-w[60%]">
             <h1 className="mb-5 text-4xl font-bold">Bienvenue sur  la plateforme PSARA !  <br/> Offrir un foyer chaleureux à un animal, c'est changer une vie. 🌟</h1>
             <p className="mb-5">
@@ -24,7 +42,7 @@ const Hero = () => {
             
             <button className="btn btn-primary">Get Started</button>
             </div>
-        </div>
+        </div> */}
     </div>
   )
 }

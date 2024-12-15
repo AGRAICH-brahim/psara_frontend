@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Russo+One&family=Titan+One&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -24,8 +27,10 @@ body {
   display: flex;
   min-width: 320px;
   width: 100%;
-  border: 2px black solid;
   min-height: 100vh;
+  font-family: "Russo One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 
@@ -41,3 +46,17 @@ body {
     background-color: #f9f9f9;
   }
 }
+
+@layer utilities {
+
+  .padding-container {
+    @apply px-6 lg:px-20 3xl:px-28;
+  }
+  
+
+  .btn-home {
+    @apply p-2 bg-[#d86404] border border-[#a939013a] rounded-xl  hover:bg-[#a939013a] ;
+  }
+}
+
+
