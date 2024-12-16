@@ -25,7 +25,7 @@ const NavBar = () => {
         documentVerification: "",
 
     })
-    
+
     const handleChoixChange = (event) => {
         setChoix(event.target.value); // Mettre à jour le choix
       };
@@ -378,7 +378,7 @@ const NavBar = () => {
                                 </div>
                             )}
                                     <div>
-                                        <button className="btn-home w-full " htmlFor="my_modal_6" >Créer Compte</button>
+                                        <button className="btn-home w-full "  >Créer Compte</button>
                                     </div> 
                         </form>
                         </div>
