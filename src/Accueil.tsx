@@ -1,4 +1,4 @@
-import Hero from "./components/home/Hero"
+import Hero from "./components/accueil/Hero"
 import NavBar from "./components/NavBar"
 
 const Accueil = () => {
