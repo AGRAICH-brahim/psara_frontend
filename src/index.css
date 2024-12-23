@@ -27,10 +27,46 @@ body {
   min-width: 320px;
   width: 100%;
   min-height: 100vh;
-  font-family: "Russo One", sans-serif;
 }
 
+.custom-swiper-button-next,
+.custom-swiper-button-prev {
+  background-color: transparent; /* Yellow background */
+  color: #000; /* Black text */
+  padding: 10px;
+  border-radius: 50%;
+  border: 1px solid rgb(235, 235, 235);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  cursor: pointer;
+}
 
+.custom-swiper-button-next {
+  right: 10px; /* Adjust position as needed */
+}
+
+.custom-swiper-button-prev {
+  left: 10px; /* Adjust position as needed */
+}
+
+/* Add hover effects if needed */
+.custom-swiper-button-next:hover,
+.custom-swiper-button-prev:hover {
+  background-color: #fbc02d; /* Darker yellow on hover */
+}
+
+/* Optional: Add transition for smooth hover effect */
+.custom-swiper-button-next,
+.custom-swiper-button-prev {
+  transition: background-color 0.3s ease;
+}
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

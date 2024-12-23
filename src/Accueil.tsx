@@ -6,6 +6,7 @@ const Accueil = () => {
     <>
       <NavBar/>
       <Hero/>
+
       <div className="flex center w-[100%] p-9 ">
         <div className="card lg:card-side bg-base-100 w-[60%] shadow-xl">
           <figure>

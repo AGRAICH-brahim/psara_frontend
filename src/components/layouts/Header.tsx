@@ -1,5 +1,13 @@
+import AjouterAnnonce from "../ajouter-annonce/AjouterAnnonce.tsx";
+
+
 const Header = () => {
-  return (
+
+    const dataStorage = localStorage.getItem("data");
+    const nom = dataStorage ? JSON.parse(dataStorage).nom : null;
+    const prenom = dataStorage ? JSON.parse(dataStorage).prenom : null;
+
+    return (
       <>
           <div className="navbar h-[80px] padding-container">
               <div className="navbar-start">
@@ -10,8 +18,30 @@ const Header = () => {
                              alt=""/>
                       </a>
                   </div>
-                  <div className="dropdown">
-                      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+
+              </div>
+              <div className="navbar-center flex items-center gap-14 text-lg text-white">
+                  <label className="input input-bordered flex items-center gap-2">
+                      <input type="text" className="grow" placeholder="Search"/>
+                      <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 16 16"
+                          fill="currentColor"
+                          className="h-4 w-4 opacity-70">
+                          <path
+                              fillRule="evenodd"
+                              d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                              clipRule="evenodd"/>
+                      </svg>
+                  </label>
+
+                  <AjouterAnnonce/>
+
+
+              </div>
+
+              <div className="navbar-end">
+                  <button className="btn btn-ghost btn-circle">
                           <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="h-5 w-5"
@@ -22,38 +52,11 @@ const Header = () => {
                                   strokeLinecap="round"
                                   strokeLinejoin="round"
                                   strokeWidth="2"
-                                  d="M4 6h16M4 12h16M4 18h7"/>
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                           </svg>
-                      </div>
-                      <ul
-                          tabIndex={0}
-                          className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                          <li><a>Homepage</a></li>
-                          <li><a>Portfolio</a></li>
-                          <li><a>About</a></li>
-                      </ul>
-                  </div>
-              </div>
-              <div className="navbar-center">
-                  <a className="btn btn-ghost text-xl">daisyUI</a>
-              </div>
-              <div className="navbar-end">
-              <button className="btn btn-ghost btn-circle">
-                      <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                      </svg>
-                  </button>
-                  <button className="btn btn-ghost btn-circle">
-                      <div className="indicator">
+                      </button>
+                  <button className="btn btn-ghost btn-circle dropdown dropdown-end">
+                      <div tabIndex={1} className="indicator">
                           <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="h-5 w-5"
@@ -68,6 +71,24 @@ const Header = () => {
                           </svg>
                           <span className="badge badge-xs badge-primary indicator-item"></span>
                       </div>
+                      <ul
+                          tabIndex={1}
+                          className="menu menu-sm dropdown-content text-xs w-[300px] bg-base-100 rounded-box z-[1] mt-3  p-2 shadow"
+                      >
+                          {/* Notifications statiques */}
+                          <li>
+                              <a>New message from John</a>
+                          </li>
+                          <li>
+                              <a>New comment on your post</a>
+                          </li>
+                          <li>
+                              <a>Sarah liked your photo</a>
+                          </li>
+                          <li>
+                              <a>Update available for your app</a>
+                          </li>
+                      </ul>
                   </button>
                   <div className="dropdown dropdown-end">
                       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
@@ -79,18 +100,22 @@ const Header = () => {
                       </div>
                       <ul
                           tabIndex={0}
-                          className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                          <li>
-                              <a className="justify-between">
-                                  Profile
-                                  <span className="badge">New</span>
-                              </a>
-                          </li>
-                          <li><a>Settings</a></li>
-                          <li><a>Logout</a></li>
-                      </ul>
+                              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                              <li>
+                                  <a className="justify-between">
+                                      Profile
+                                      <span className="badge">New</span>
+                                  </a>
+                              </li>
+                              <li><a>Settings</a></li>
+                              <li><a>Logout</a></li>
+                          </ul>
+                      </div>
                   </div>
-              </div>
+                  <div className="flex flex-col">
+                      <div><p>{nom}</p></div>
+                      <div><p>{prenom}</p></div>
+                  </div>
           </div>
       </>
   )

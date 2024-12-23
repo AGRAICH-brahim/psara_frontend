@@ -1,7 +1,23 @@
 import { AiOutlineLike  } from "react-icons/ai";
-import { FaShareAlt } from "react-icons/fa";
+import { FaShareAlt} from "react-icons/fa";
 import {useEffect, useState} from "react";
 import axios from 'axios';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import "swiper/css/pagination";
+import 'swiper/css/scrollbar';
+import {
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+} from "@nextui-org/react";
+import Swiper from "./Swiper.tsx";
+import { MdVerified} from "react-icons/md";
+import DemandeAdoptionButton from "./DemandeAdoptionButton.tsx";
+
 
 
 const Feed = () => {
@@ -26,14 +42,18 @@ const Feed = () => {
     const [data , setData] = useState<DataItem[]>([]);
     const [loading , setLoading] = useState(true);
     const [error , setError] = useState(false);
+    const [selectedItem, setSelectedItem] = useState<DataItem | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get("http://localhost:8080/api/animal-annonces");
-                setData(response.data);
+                const sortedData = response.data.sort((a: DataItem, b: DataItem) => b.id - a.id); // Trier par `id` en ordre décroissant
+                setData(sortedData);
             } catch (error) {
-                setError(error.message);
+                if (axios.isAxiosError(error)) {
+                    setError(error.response?.data.message || error.message); // Utilisez la réponse de l'API si disponible
+                }
             } finally {
                 setLoading(false);
             }
@@ -46,7 +66,13 @@ const Feed = () => {
     if (error) return <p>Error: {error}</p>;
     if (data.length === 0) return <p>No data</p>;
 
+    const openModal = (item: DataItem) => {
+        setSelectedItem(item);
+    };
 
+    const closeModal = () => {
+        setSelectedItem(null);
+    };
     return (
         <>
             {data.map((item) => (
@@ -54,8 +80,12 @@ const Feed = () => {
                     <div className="flex flex-row justify-between items-center">
                         <div className="flex flex-row gap-2 p-2">
                             <div>
-                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                <div  role="button" className="btn btn-ghost btn-circle avatar">
                                     <div className="w-10 rounded-full">
+
+                                        <div className="flex relative">
+                                            <MdVerified className="absolute left-1  "  color="blue"/>
+                                        </div>
                                         <img
                                             alt="Tailwind CSS Navbar component"
                                             src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/>
@@ -64,7 +94,7 @@ const Feed = () => {
                             </div>
                             <div>
                                 <div>
-                                    <p className={"text-base"}>AGRAICH Brahim {item.nom} {item.id} </p>
+                                    <p className={"text-base"}>AGRAICH Brahim</p>
                                 </div>
                                 <div>
                                     <p className="font-thin text-xs ">Publié le
@@ -80,7 +110,8 @@ const Feed = () => {
                             </div>
                         </div>
                         <div>
-                            <p className={"font-thin text-xs"}>status : en cours</p>
+                            <p className={"font-light text-xs"}>status :{item.status}</p>
+                            <p className={"font-light text-xs"}>Type d'adoption : <span className={`${item.type == "En cours"} : text-orange-500 ? text-black`}>{item.type}</span> </p>
                         </div>
                     </div>
                     <div className={"border"}></div>
@@ -89,34 +120,11 @@ const Feed = () => {
                         <p className="text-sm   ">
                             {item.description}
                         </p>
+
+                        <p  onClick={() => openModal(item)} className="cursor-pointer">Voir toute les details</p>
                     </div>
                     <div className="">
-                        <div className="carousel w-full">
-                            {item.images.map((image, index) => (
-                                <div key={index} id={`slide${item.id}-${index}`} className="carousel-item relative w-full">
-                                    <img
-                                        src={`http://localhost:8080/images/${image}`}
-                                        alt={item.nom}
-                                        className="w-full object-cover max-h-[300px]"
-                                    />
-                                    <div
-                                        className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2  justify-between">
-                                        {/* Navigation vers l'image précédente */}
-                                        <a
-                                            href={`#slide${item.id}-${index === 0 ? item.images.length - 1 : index - 1}`}
-                                            className="btn btn-circle">
-                                            ❮
-                                        </a>
-                                        {/* Navigation vers l'image suivante */}
-                                        <a
-                                            href={`#slide${item.id}-${(index + 1) % item.images.length}`}
-                                            className="btn btn-circle">
-                                            ❯
-                                        </a>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        <Swiper images={item.images} />
                     </div>
                     <div className="border bg-amber-100"></div>
                     <div className="flex flex-row justify-between items-center p-2">
@@ -145,7 +153,47 @@ const Feed = () => {
                     <div className="border bg-amber-100"></div>
                 </div>
             ))}
+            {selectedItem && (
+                <Modal isOpen={!!selectedItem} size={"3xl"} onClose={closeModal}>
+                    <ModalContent>
+                        <ModalHeader>{selectedItem.nom}</ModalHeader>
+                        <ModalBody>
+                            <Swiper images={selectedItem.images}/>
+                            <p><strong>Description :</strong> {selectedItem.description}</p>
+                            <p><strong>Besoins Specifiques :</strong> {selectedItem.besoinsSpecifiques}</p>
+                            <div className="flex flex-row gap-2 p-2 justify-between">
+                                <div>
+                                    <p><strong>Type :</strong> {selectedItem.type}</p>
+                                </div>
+                                <div>
+                                    <p><strong>Statut :</strong> {selectedItem.status}</p>
+                                </div>
+                                <div>
+                                    <p>
+                                        <strong>Vaccin
+                                            :</strong> {selectedItem.vaccin ? "Animal vacciné" : "Animal n'est pas vacciné"}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex flex-row gap-2 p-2 justify-between ">
+                                <div>
+                                <p><strong>Localisation :</strong> {selectedItem.localisation}</p>
+                                </div>
+                                <div>
+                                    <p><strong>Âge :</strong> {selectedItem.age} ans</p>
+                                </div>
+                                <div>
+                                    <p><strong>Sexe :</strong> {selectedItem.sexe}</p>
+                                </div>
+                            </div>
 
+                        </ModalBody>
+                        <ModalFooter>
+                            <DemandeAdoptionButton selectedItem={selectedItem} />
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            )}
 
         </>
     )

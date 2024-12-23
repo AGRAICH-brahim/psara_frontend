@@ -1,10 +1,10 @@
-import Profile from "../components/profile/Profile.tsx";
+import ProfileComponent from "../components/profile/ProfileComponent.tsx";
 import Annonce from "../components/profile/Annonce.tsx";
 
 const UserProfil = () => {
     return (
         <>
-            <Profile/>
+            <ProfileComponent/>
             <Annonce/>
             <div>user profile</div>
         </>
