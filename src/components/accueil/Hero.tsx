@@ -2,7 +2,7 @@
 const Hero = () => {
   return (
     <div
-        className="hero min-h-[67%] min-w-full "
+        className="hero h-[87vh] min-w-full "
         style={{
             backgroundImage: "url(Garde-animaux-chien-chat-lapin-gratuit.jpg)",
         }}>

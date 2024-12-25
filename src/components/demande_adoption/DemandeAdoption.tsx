@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import {Link} from "react-router-dom";
+import DecisionButton from "./DecisionButton.tsx";
 
 // Définition des interfaces
 interface AnimalAnnonce {
@@ -130,12 +132,15 @@ const DemandeAdoption = () => {
                         <div className="relative">
                             <img src={`http://localhost:8080/images/${demande.animalAnnonce.images[0]}`} alt={demande.animalAnnonce.nom} className="w-full h-48 object-cover rounded-t-lg" />
                             <div className="absolute top-2 right-2 bg-white px-3 py-1 rounded-full text-sm font-semibold text-gray-700 bg-opacity-80">
-                                {demande.statusEntity.status === 'Validée' ? (
-                                    <span className="text-green-500">Validée</span>
+                                {demande.statusEntity.status === 'Terminée' ? (
+                                    <span className="text-green-500">Terminée</span>
+                                ) : demande.statusEntity.status === 'Adoptée' ? (
+                                    <span className="text-green-500">Adoptée</span>
                                 ) : (
                                     <span className="text-yellow-500">{demande.statusEntity.status}</span>
                                 )}
                             </div>
+
                         </div>
                         <div className="p-6">
                             <h5 className="text-xl font-bold text-blue-500">Demande #{demande.id}</h5>
@@ -143,15 +148,25 @@ const DemandeAdoption = () => {
                             <p className="mt-2 text-sm text-gray-600"><strong>Date de demande :</strong> {new Date(demande.dataDemande).toLocaleString()}</p>
 
                             <div className="mt-6">
-                                <h6 className="text-sm font-semibold text-gray-500">Utilisateur</h6>
-                                <p className="text-sm text-gray-700"><strong>Nom :</strong> {users[index]?.nom}</p>
+                                <h6 className="text-sm font-semibold text-gray-500">Informations sur la personne faisant
+                                    la demande. </h6>
+                                <p className="text-sm text-gray-700"><strong>Nom :</strong> {users[index]?.nom} </p>
                                 <p className="text-sm text-gray-700"><strong>Email :</strong> {users[index]?.email}</p>
-                                <p className="text-sm text-gray-700"><strong>Voir le profile de l'utilisateur :</strong> {users[index]?.email}</p>
+                                <p className="text-sm text-gray-700">
+                                    <strong>Voir le profil de l'utilisateur : </strong>
+                                    <Link
+                                        to="/user-profile"
+                                        state={{ userId: users[index]?.id }} // Passer le userId directement via `state`
+                                    >
+                                         Cliquez ici
+                                    </Link>
+                                </p>
                             </div>
 
                             <div className="mt-6">
                                 <h6 className="text-sm font-semibold text-gray-500">Animal Concerné</h6>
-                                <p className="text-sm text-gray-700"><strong>Nom :</strong> {demande.animalAnnonce.nom}</p>
+                                <p className="text-sm text-gray-700"><strong>Nom :</strong> {demande.animalAnnonce.nom}
+                                </p>
                                 <p className="text-sm text-gray-700"><strong>Type :</strong> {demande.animalAnnonce.type}</p>
                                 <p className="text-sm text-gray-700"><strong>Âge :</strong> {demande.animalAnnonce.age} ans</p>
                                 <p className="text-sm text-gray-700"><strong>Sexe :</strong> {demande.animalAnnonce.sexe}</p>
@@ -159,9 +174,7 @@ const DemandeAdoption = () => {
                             </div>
 
                             <div className="text-center mt-4">
-                                <button className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300">
-                                    Voir plus
-                                </button>
+                                <DecisionButton adoptionId={demande.id}/>
                             </div>
                         </div>
                     </div>

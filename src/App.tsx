@@ -7,6 +7,7 @@ import Dashboard from "./admin/dashboard/Dashboard.tsx";
 import RequestDemandeAdoption from "./user/demande_adoption/RequestDemandeAdoption.tsx";
 import Profile from "./user/profile/Profile.tsx";
 import Messages from "./user/messages/Messages.tsx";
+import UserProfil from "./user/UserProfil.tsx";
 
 // Fonction pour vérifier si l'utilisateur est authentifié
 const isAuthenticated = () => {
@@ -28,6 +29,7 @@ function App() {
     { path: "/admin", element: <PrivateRoute element={<Dashboard />} /> },  // Protéger la route /admin
     { path: "/adoption-requests", element: <RequestDemandeAdoption/> },
     {path: "/messages" , element: <Messages/>},
+    {path: "/user-profile", element: <UserProfil/>},
   ])
 
   return <RouterProvider router={router} />

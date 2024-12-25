@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
+import Swiper from "../home/Swiper.tsx";
 
 const ProfileComponent = () => {
     const [user, setUser] = useState<any>(null);
@@ -7,6 +9,8 @@ const ProfileComponent = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedTab, setSelectedTab] = useState<number>(1); // Etat pour gérer l'onglet sélectionné
+    const [selectedAnnonce, setSelectedAnnonce] = useState<any | null>(null); // State for selected annonce
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // State to manage modal visibility
 
     // Récupérer l'ID de l'utilisateur depuis le localStorage
     const userId = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')!).userId : null;
@@ -52,6 +56,16 @@ const ProfileComponent = () => {
         }
     }, [userId]);
 
+    const handleModalOpen = (annonce: any) => {
+        setSelectedAnnonce(annonce); // Set selected annonce
+        setIsModalOpen(true); // Open modal
+    };
+
+    const handleModalClose = () => {
+        setIsModalOpen(false); // Close modal
+        setSelectedAnnonce(null); // Reset selected annonce
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -85,24 +99,24 @@ const ProfileComponent = () => {
             </div>
 
             {/* Tabs Section */}
-            <div role="tablist" className="tabs tabs-bordered mt-6">
+            <div role="tablist" className="tabs tabs-bordered mt-11">
                 {/* Tab 1: Annonces */}
                 <button
-                    className={`tab ${selectedTab === 1 ? 'tab-active' : ''}`}
+                    className={`tab h-10 ${selectedTab === 1 ? 'tab-active' : ''}`}
                     onClick={() => setSelectedTab(1)}
                 >
                     Annonces
                 </button>
                 {/* Tab 2: Adoptions */}
                 <button
-                    className={`tab ${selectedTab === 2 ? 'tab-active' : ''}`}
+                    className={`tab h-10 ${selectedTab === 2 ? 'tab-active' : ''}`}
                     onClick={() => setSelectedTab(2)}
                 >
                     Adoptions
                 </button>
                 {/* Tab 3: Avis */}
                 <button
-                    className={`tab ${selectedTab === 3 ? 'tab-active' : ''}`}
+                    className={`tab h-10 ${selectedTab === 3 ? 'tab-active' : ''}`}
                     onClick={() => setSelectedTab(3)}
                 >
                     Avis
@@ -119,7 +133,8 @@ const ProfileComponent = () => {
                                     <img
                                         src={`http://localhost:8202/images/${annonce.images[0]}`} // Utilisation de l'URL de l'image de l'annonce
                                         alt={`Annonce ${index + 1}`}
-                                        className="w-full h-full object-cover rounded-lg shadow-lg"
+                                        className="w-full h-full object-cover cursor-pointer rounded-lg shadow-lg hover:opacity-80"
+                                        onClick={() => handleModalOpen(annonce)} // Open modal on click
                                     />
                                 </div>
                             ))
@@ -148,6 +163,33 @@ const ProfileComponent = () => {
                     <p className="text-gray-600">Les avis de l'utilisateur viendront ici.</p>
                 )}
             </div>
+
+            {/* Modal */}
+            {selectedAnnonce && (
+                <Modal isOpen={isModalOpen} onClose={handleModalClose} size="3xl">
+                    <ModalContent>
+                        <ModalHeader>{selectedAnnonce.nom}</ModalHeader>
+                        <ModalBody>
+                            <Swiper images={selectedAnnonce.images} />
+                            <p><strong>Description:</strong> {selectedAnnonce.description}</p>
+                            <p><strong>Besoins Spécifiques:</strong> {selectedAnnonce.besoinsSpecifiques}</p>
+                            <div className="flex flex-row gap-2 p-2 justify-between">
+                                <div><p><strong>Type:</strong> {selectedAnnonce.type}</p></div>
+                                <div><p><strong>Statut:</strong> {selectedAnnonce.status}</p></div>
+                                <div><p><strong>Vacciné:</strong> {selectedAnnonce.vaccin ? "Animal vacciné" : "Animal non vacciné"}</p></div>
+                            </div>
+                            <div className="flex flex-row gap-2 p-2 justify-between">
+                                <div><p><strong>Localisation:</strong> {selectedAnnonce.localisation}</p></div>
+                                <div><p><strong>Âge:</strong> {selectedAnnonce.age} ans</p></div>
+                                <div><p><strong>Sexe:</strong> {selectedAnnonce.sexe}</p></div>
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
+                            editer annonce
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            )}
 
             {/* Footer */}
             <div className="bg-white p-4 mt-6">

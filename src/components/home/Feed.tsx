@@ -17,6 +17,7 @@ import {
 import Swiper from "./Swiper.tsx";
 import { MdVerified} from "react-icons/md";
 import DemandeAdoptionButton from "./DemandeAdoptionButton.tsx";
+import {Link} from "react-router-dom";
 
 
 
@@ -36,13 +37,15 @@ const Feed = () => {
         status: string; // Statut (disponible, adopté, etc.)
         dateCreated: string; // Date de création (format ISO 8601)
         dateUpdate: string | null; // Date de mise à jour (ou null si non mise à jour)
-        userCreation: string | null; // Utilisateur ayant créé l'
+        userCreation: number | null; // Utilisateur ayant créé l'
     }
 
     const [data , setData] = useState<DataItem[]>([]);
     const [loading , setLoading] = useState(true);
     const [error , setError] = useState(false);
     const [selectedItem, setSelectedItem] = useState<DataItem | null>(null);
+
+    const [userCreation, setUserCreation] = useState<{ [key: number]: any }>({});
 
     useEffect(() => {
         const fetchData = async () => {
@@ -61,6 +64,25 @@ const Feed = () => {
         fetchData();
     }, [])
 
+    const fetchAdoptionComments = async (userId: number) => {
+        try {
+            const response = await axios.get(`http://localhost:8200/api/users/${userId}`);
+            setUserCreation((prev) => ({
+                ...prev,
+                [userId]: response.data, // Associe les données utilisateur à l'ID utilisateur
+            }));
+        } catch (err) {
+            console.error("Erreur lors de la récupération des données utilisateur", err);
+        }
+    };
+
+    useEffect(() => {
+        data.forEach((item) => {
+            if (item.userCreation && !userCreation[item.userCreation]) {
+                fetchAdoptionComments(item.userCreation);
+            }
+        });
+    }, [data]);
 
     if (loading)  return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -88,13 +110,21 @@ const Feed = () => {
                                         </div>
                                         <img
                                             alt="Tailwind CSS Navbar component"
-                                            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/>
+                                            src="/img.png"/>
                                     </div>
                                 </div>
                             </div>
                             <div>
                                 <div>
-                                    <p className={"text-base"}>AGRAICH Brahim</p>
+                                    <p className={"text-base"}> <Link
+                                        to="/user-profile"
+                                        state={{ userId: item?.userCreation }} // Passer le userId directement via `state`
+                                    >
+                                        {userCreation[item.userCreation]?.nom
+                                        ? `${userCreation[item.userCreation].nom} ${userCreation[item.userCreation].prenom}`
+                                        : "Utilisateur inconnu"}
+                                    </Link>
+                                    </p>
                                 </div>
                                 <div>
                                     <p className="font-thin text-xs ">Publié le

@@ -64,7 +64,7 @@ const MessagesComponent = () => {
                 </div>
 
                 {/* Messages */}
-                <div className="space-y-6 flex-1 overflow-y-auto px-2">
+                <div className="space-y-2 flex-1  overflow-y-auto px-2 max-h-[calc(70vh-80px)]">
                     {/* Exemple de message */}
                     <div className="flex items-start space-x-3">
                         <img
@@ -72,14 +72,14 @@ const MessagesComponent = () => {
                             alt="You"
                             className="w-10 h-10 rounded-full"
                         />
-                        <div className="bg-gray-200 p-3 rounded-lg max-w-xs shadow-sm">
+                        <div className="bg-gray-200 p-2 rounded-lg max-w-xs shadow-sm">
                             <p className="text-gray-800">Hey, how's it going?</p>
                         </div>
                     </div>
 
                     {/* Message de l'autre utilisateur */}
                     <div className="flex items-start space-x-3 ml-auto">
-                        <div className="bg-blue-500 text-white p-3 rounded-lg max-w-xs shadow-sm">
+                        <div className="bg-blue-500 text-white p-2 rounded-lg max-w-xs shadow-sm">
                             <p className="text-white">I'm good, thanks! And you?</p>
                         </div>
                         <img

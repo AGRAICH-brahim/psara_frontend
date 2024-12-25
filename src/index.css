@@ -19,6 +19,75 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* style.css */
+.chatbot {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 300px;
+  height: 400px;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  display: none;
+  flex-direction: column;
+}
+
+.chatbot.show-chatbot {
+  display: flex;
+}
+
+.chatbot header {
+  background-color: #0078d4;
+  color: white;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatbot .chatbox {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.chatbot .chatbox .chat {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.chatbot .chatbox .chat.outgoing {
+  justify-content: flex-end;
+}
+
+.chatbot .chatbox .chat .material-symbols-outlined {
+  margin-right: 10px;
+}
+
+.chatbot .chat-input {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.chatbot .chat-input textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  resize: none;
+}
+
+.chatbot .chat-input span {
+  margin-left: 10px;
+  cursor: pointer;
+}
 
 
 body {
